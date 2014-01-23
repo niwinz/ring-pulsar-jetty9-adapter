@@ -22,10 +22,9 @@ uses the latest stable jetty version: 9.1.1.
   (jetty/run-jetty #'app {:port 8080}))
 ```
 
-*Options:*
+**Options:**
 
 ```clojure
-:configurator - a function called with the Jetty Server instance
 :port         - the port to listen on (defaults to 80)
 :host         - the hostname to listen on
 :join?        - blocks the thread until server ends (defaults to true)
@@ -36,13 +35,15 @@ uses the latest stable jetty version: 9.1.1.
 :key-password - the password to the keystore
 :truststore   - a truststore to use for SSL connections
 :trust-password - the password to the truststore
-:max-idle-time  - the maximum idle time in milliseconds for a connection (default 200000)
-:client-auth  - SSL client certificate authenticate, may be set to :need,
-              :want or :none (defaults to :none)"
+:max-idle-time  - the maximum idle time in milliseconds
+                  for a connection (default 200000)
+:client-auth  - SSL client certificate authenticate, may be
+                set to :need, :want or :none (defaults to :none)"
 ```
 
 
 ## License
 
 Copyright © 2014 Andrey Antukh and released under an MIT license
+
 Copyright © 2009-2013 Mark McGranaghan and released under an MIT license.
