@@ -1,4 +1,4 @@
-(ns ring.adapter.jetty
+(ns ring.adapter.jetty9
   "Adapter for the Jetty webserver."
   (:import (org.eclipse.jetty.server Server Request ServerConnector HttpConfiguration
                                      HttpConnectionFactory SslConnectionFactory ConnectionFactory)
@@ -56,11 +56,10 @@
 
 (defn- make-http-connector
   [server options]
-  (let [connector (doto (ServerConnector. server)
-                    (.setPort (options :port 80))
-                    (.setHost (options :host))
-                    (.setIdleTimeout (options :max-idle-time 200000)))]
-    connector))
+  (doto (ServerConnector. server)
+    (.setPort (options :port 80))
+    (.setHost (options :host))
+    (.setIdleTimeout (options :max-idle-time 200000))))
 
 (defn- make-https-connector
   [server options]
@@ -90,7 +89,7 @@
   :client-auth  - SSL client certificate authenticate, may be set to :need,
                   :want or :none (defaults to :none)"
   [handler options]
-  (let [server      (make-server options)]
+  (let [server (make-server options)]
     (.addConnector server (make-http-connector server options))
     (when (or (options :ssl?) (options :ssl-port))
       (.addConnector server (make-https-connector server options)))
