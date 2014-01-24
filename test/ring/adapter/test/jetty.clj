@@ -1,6 +1,6 @@
 (ns ring.adapter.test.jetty
   (:use clojure.test
-        ring.adapter.jetty)
+        ring.adapter.jetty9)
   (:require [clj-http.client :as http])
   (:import (org.eclipse.jetty.util.thread QueuedThreadPool)
            (org.eclipse.jetty.server Server Request)
@@ -43,8 +43,6 @@
                               :keystore "test/keystore.jks"
                               :key-password "password"}
       (let [response (http/get "https://localhost:4348" {:insecure? true})]
-        (println response)
-
         (is (= (:status response) 200))
         (is (= (:body response) "Hello World")))))
 

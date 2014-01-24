@@ -9,7 +9,7 @@ uses the latest stable jetty version: 9.1.1.
 
 ```clojure
 (ns myns.core
-  (:require [ring.adapter.jetty :as jetty])
+  (:require [ring.adapter.jetty9 :as jetty])
   (:gen-class))
 
 (defn app [req]
