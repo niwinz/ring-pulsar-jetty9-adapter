@@ -1,15 +1,18 @@
-# ring-jetty-adapter
+# ring-pulsar-jetty9-adapter
 
-A Ring adapter that uses the Jetty webserver.
+A Ring adapter that uses the Jetty webserver with pulsar fibers as concorency primitives.
 
 This is completely based on jetty adapter from https://github.com/ring-clojure/ring but
 uses the latest stable jetty version: 9.1.1.
+
+Pulsar: http://docs.paralleluniverse.co/pulsar/
+
 
 ## How to use?
 
 ```clojure
 (ns myns.core
-  (:require [ring.adapter.jetty9 :as jetty])
+  (:require [ring.adapter.pulsar.jetty9 :as jetty])
   (:gen-class))
 
 (defn app [req]

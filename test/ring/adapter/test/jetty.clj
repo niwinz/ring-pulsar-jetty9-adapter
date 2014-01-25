@@ -1,6 +1,6 @@
 (ns ring.adapter.test.jetty
   (:use clojure.test
-        ring.adapter.jetty9)
+        ring.adapter.pulsar.jetty9)
   (:require [clj-http.client :as http])
   (:import (org.eclipse.jetty.util.thread QueuedThreadPool)
            (org.eclipse.jetty.server Server Request)

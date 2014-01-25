@@ -1,22 +1,29 @@
-(ns ring.adapter.jetty9
-  "Adapter for the Jetty webserver."
+(ns ring.adapter.pulsar.jetty9
+  "Adapter for the Jetty webserver using pulsar
+  fibers as concurency primitives."
   (:import (org.eclipse.jetty.server Server Request ServerConnector HttpConfiguration
                                      HttpConnectionFactory SslConnectionFactory ConnectionFactory)
            (org.eclipse.jetty.server.handler AbstractHandler)
            (org.eclipse.jetty.util.thread QueuedThreadPool)
            (org.eclipse.jetty.util.ssl SslContextFactory))
-  (:require [ring.util.servlet :as servlet]))
+  (:require [ring.util.servlet :as servlet]
+            [co.paralleluniverse.pulsar.core :refer [spawn-fiber]]))
+
+
+(defn- process-request
+  [handler brequest req res]
+  (let [request-map  (servlet/build-request-map req)
+        response-map (handler request-map)]
+    (when response-map
+      (servlet/update-servlet-response res response-map)
+      (.setHandled brequest true))))
 
 (defn- proxy-handler
   "Returns an Jetty Handler implementation for the given Ring handler."
   [handler]
   (proxy [AbstractHandler] []
     (handle [_ ^Request base-request request response]
-      (let [request-map  (servlet/build-request-map request)
-            response-map (handler request-map)]
-        (when response-map
-          (servlet/update-servlet-response response response-map)
-          (.setHandled base-request true))))))
+      (spawn-fiber process-request handler base-request request response))))
 
 (defn- make-ssl-context-factory
   "Creates a new SslContextFactory instance from a map of options."
